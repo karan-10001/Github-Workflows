@@ -1,4 +1,4 @@
-name: My first workflow
+name: workflow with multiple jobs
 
 on: 
   workflow_dispatch:
