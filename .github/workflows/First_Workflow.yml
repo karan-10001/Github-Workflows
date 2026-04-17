@@ -20,6 +20,21 @@ jobs:
 
       - name: print bye bye
         run : echo "bye bye bro!"
+  
+  API_Test:
+    runs-on: ubantu-latest
+
+    steps: 
+      - name: checkout code 
+        uses: actions/checkout@v4
+      - name: print this 
+        run: echo "this is api test job"
+
+      - name: print bye bye 
+        run: echo "bye bye "
+          
+
+
 
         
         
