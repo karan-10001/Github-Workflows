@@ -22,7 +22,7 @@ jobs:
         run : echo "bye bye bro!"
   
   API_Test:
-    runs-on: ubantu-latest
+    runs-on: ubuntu-latest
 
     steps: 
       - name: checkout code 
