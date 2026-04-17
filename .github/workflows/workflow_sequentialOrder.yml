@@ -34,6 +34,7 @@ jobs:
       - name: print the context 
         run: echo "It will run all api test cases"
   Performance_Test:
+    needs: API_Test
     runs-on: ubuntu-latest
 
     steps: 
