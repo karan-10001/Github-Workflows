@@ -1,0 +1,55 @@
+name: workflow with multiple event trigger
+
+on: 
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule: 
+    - cron: "0 2 * * *"
+  release: 
+    types: [ published ]
+  repository_dispatch:
+    types: [ run_automation ]
+  
+jobs:
+  UI_Tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code 
+        uses: actions/checkout@v4
+
+      - name: Print job name
+        run: echo "UI_Tests"
+
+      - name: Print context
+        run: echo "It will run all UI test cases"
+  
+  API_Test:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout code 
+        uses: actions/checkout@v4
+        
+      - name: Print job name
+        run: echo "API_Test"
+
+      - name: Print context 
+        run: echo "It will run all API test cases"
+
+  Performance_Test:
+    needs: API_Test
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout code 
+        uses: actions/checkout@v4
+        
+      - name: Print job name
+        run: echo "Performance_Test"
+
+      - name: Print context 
+        run: echo "It will run all performance test cases"
