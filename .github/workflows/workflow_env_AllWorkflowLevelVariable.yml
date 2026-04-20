@@ -1,0 +1,50 @@
+name: workflow with env variables
+
+on: 
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+    ENVIRONMENT: test
+    APP_Name: k application
+  
+jobs:
+  UI_Tests:
+    runs-on: ubuntu-latest
+    
+    env:
+        JOB_TYPE: UI
+        BROWSER: chrome
+    steps:
+      - name: checkout code 
+        uses: actions/checkout@v4
+
+      - name: print this job name
+        run : echo "this is jobs level env variable $JOB_TYPE"
+
+        env:
+            TEST_LEVEL: smoke
+
+      - name: print the context
+        run : echo "Steps level env variable $TEST_LEVEL"
+  
+      - name: print the context
+        run : echo " this is workflow level env variable $ENVIRONMENT"
+  API_Test:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: checkout code 
+        uses: actions/checkout@v4
+        
+      - name: print this job name
+        run: echo "API_test"
+
+      - name: print the context 
+        run: echo "It will run all api test cases"
+
+      - name: print global leven repository varible 
+        run: echo "It will run all api ${{ vars.PROJECT_ID}}"
