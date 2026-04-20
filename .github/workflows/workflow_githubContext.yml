@@ -1,4 +1,4 @@
-name: workflow with multiple jobs
+name: workflow with github context 
 
 on: 
   workflow_dispatch:
