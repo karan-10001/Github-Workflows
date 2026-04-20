@@ -1,0 +1,50 @@
+name: workflow with multiple jobs
+
+on: 
+  workflow_dispatch:
+  
+jobs:
+  UI_Tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code 
+        uses: actions/checkout@v4
+
+      - name: print this job name
+        run : echo "UI_Tests"
+
+      - name: print the context
+        run : echo "It will run all UI test cases"
+    
+      - name: print github repo name 
+        run : echo "This is github repo name ${{github.repository}}"  
+  
+  API_Test:
+    runs-on: ubuntu-latest
+    needs: Performance_Test
+    steps: 
+      - name: checkout code 
+        uses: actions/checkout@v4
+        
+      - name: print this job name
+        run: echo "API_test"
+
+      - name: print the context 
+        run: echo "It will run all api test cases"
+
+      - name: print this workflow name  
+        run: echo "name of this workflow is ${{github.workflow}}"
+
+  Performance_Test:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: checkout code 
+        uses: actions/checkout@v4
+        
+      - name: print this job name
+        run: echo "Performance_test"
+
+      - name: print github actor name  
+        run: echo "github user name ${{github.actor}}"
