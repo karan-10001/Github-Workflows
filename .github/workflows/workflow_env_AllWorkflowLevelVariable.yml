@@ -39,7 +39,7 @@ jobs:
         run: env | sort
 
       - name: Access & print environment variable from GitHub UI (test)
-        run: echo "this is environment variable from GitHub GUI $BASE_URL"
+        run: echo "this is environment variable from GitHub GUI ${{vars.BASE_URL}}"
 
   ProductionTest:
     runs-on: ubuntu-latest
@@ -59,4 +59,4 @@ jobs:
         run: env | sort
 
       - name: Access & print environment variable from GitHub UI (production)
-        run: echo "this is environment variable from GitHub GUI $BASE_URL"
+        run: echo "this is environment variable from GitHub GUI ${{vars.BASE_URL}}"
