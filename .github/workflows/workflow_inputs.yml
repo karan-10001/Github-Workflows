@@ -1,0 +1,50 @@
+name: workflow with manual inputs in workflow_dispatch
+
+on: 
+  workflow_dispatch:
+    inputs:
+        Myname:
+            description: "Please enter your name"
+            required: true 
+            default: "github user"
+            type: string
+
+  
+jobs:
+  UI_Tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code 
+        uses: actions/checkout@v4
+
+      - name: print this job name
+        run : echo "UI_Tests"
+
+      - name: print the context
+        run : echo "It will run all UI test cases"
+  
+  API_Test:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: checkout code 
+        uses: actions/checkout@v4
+        
+      - name: print this job name
+        run: echo "API_test"
+
+      - name: print the context 
+        run: echo "It will run all api test cases"
+  Performance_Test:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: checkout code 
+        uses: actions/checkout@v4
+        
+      - name: print this job name
+        run: echo "Performance_test"
+
+      - name: print the context 
+        run: echo "It will run all performance test cases"
