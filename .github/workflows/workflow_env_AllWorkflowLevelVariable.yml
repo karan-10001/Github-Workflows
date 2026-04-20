@@ -35,6 +35,9 @@ jobs:
       - name: Print workflow-level env variable
         run: echo "this is workflow-level env variable $ENVIRONMENT"
 
+      - name: DEBUG – list all env vars
+        run: env | sort
+
       - name: Access & print environment variable from GitHub UI (test)
         run: echo "this is environment variable from GitHub GUI $BASE_URL"
 
@@ -52,5 +55,8 @@ jobs:
       - name: Print repository variable
         run: echo "Project ID is ${{ vars.PROJECT_ID }}"
     
+      - name: DEBUG – list all env vars
+        run: env | sort
+
       - name: Access & print environment variable from GitHub UI (production)
         run: echo "this is environment variable from GitHub GUI $BASE_URL"
