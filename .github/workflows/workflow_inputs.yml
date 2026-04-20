@@ -8,8 +8,16 @@ on:
             required: true 
             default: "github user"
             type: string
+        Environment:
+            description: "please enter the environment"
+            required: true
+            type: choice
 
-  
+            options:
+                - INT
+                - PROD
+                - DEV
+
 jobs:
   UI_Tests:
     runs-on: ubuntu-latest
@@ -23,6 +31,9 @@ jobs:
 
       - name: print the context
         run : echo "It will run all UI test cases"
+
+      - name: print inputs variable
+        run : echo "one of the input variable is ${{inputs.Myname}}"  
   
   API_Test:
     runs-on: ubuntu-latest
@@ -36,15 +47,7 @@ jobs:
 
       - name: print the context 
         run: echo "It will run all api test cases"
-  Performance_Test:
-    runs-on: ubuntu-latest
 
-    steps: 
-      - name: checkout code 
-        uses: actions/checkout@v4
-        
-      - name: print this job name
-        run: echo "Performance_test"
+      - name: print inputs other variable
+        run: echo "one of the input variable is ${{inputs.Environment}}"  
 
-      - name: print the context 
-        run: echo "It will run all performance test cases"
