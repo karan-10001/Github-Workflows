@@ -1,0 +1,77 @@
+name: workflow with secrets global repo & env variables from github GUI
+
+on: 
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  ENVIRONMENT: test
+  APP_NAME: k_application
+  
+jobs:
+  TestEnvironmentTest:
+    runs-on: ubuntu-latest
+    environment: test
+    
+    env:
+      JOB_TYPE: UI
+      BROWSER: chrome
+
+    steps:
+      - name: Checkout code 
+        uses: actions/checkout@v4
+
+      - name: Print job-level env variable
+        run: echo "this is job-level env variable $JOB_TYPE"
+
+      - name: Print step-level env variable
+        run: echo "this is step-level env variable $TEST_LEVEL"
+        env:
+          TEST_LEVEL: smoke
+
+      - name: Print workflow-level env variable
+        run: echo "this is workflow-level env variable $ENVIRONMENT"
+
+      - name: DEBUG – list all env vars
+        run: env | sort
+
+      - name: Access & print environment variable from GitHub UI (test)
+        run: echo "this is environment variable from GitHub GUI ${{vars.BASE_URL}}"
+
+      - name: Access & print secret of environment variable from GitHub UI (test)
+        run: echo "this is secret test environment variable from GitHub GUI ${{secrets.TESTER}}"
+        
+      - name: Access & print secret of repository variable from GitHub UI (test)
+        run: echo "this is secrets variable from GitHub GUI ${{secrets.USER_NAME}}"
+        
+      - name: Access & print secret of repository variable from GitHub UI (test)
+        run: echo "this is secrets  variable from GitHub GUI ${{secrets.PASSWORD}}"  
+
+  ProductionTest:
+    runs-on: ubuntu-latest
+    environment: Production
+
+    steps: 
+      - name: Checkout code 
+        uses: actions/checkout@v4
+        
+      - name: Print job name
+        run: echo "API_test"
+
+      - name: Print repository variable
+        run: echo "Project ID is ${{ vars.PROJECT_ID }}"
+    
+      - name: DEBUG – list all env vars
+        run: env | sort
+
+      - name: Access & print environment variable from GitHub UI (production)
+        run: echo "this is environment variable from GitHub GUI ${{vars.BASE_URL}}"
+
+      - name: Access & print secret of repository variable from GitHub UI (test)
+        run: echo "this is secrets variable from GitHub GUI ${{secrets.USER_NAME}}"  
+
+      - name: Access & print secret of repository variable from GitHub UI (test)
+        run: echo "this is secrets  variable from GitHub GUI ${{secrets.PASSWORD}}"  
