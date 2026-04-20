@@ -41,13 +41,13 @@ jobs:
       - name: Access & print environment variable from GitHub UI (test)
         run: echo "this is environment variable from GitHub GUI ${{vars.BASE_URL}}"
 
-      - name: Access & print secret of environment variable from GitHub UI (test)
+      - name: Access & print secret of environment variable of tester name from GitHub UI (test)
         run: echo "this is secret test environment variable from GitHub GUI ${{secrets.TESTER}}"
         
-      - name: Access & print secret of repository variable from GitHub UI (test)
+      - name: Access & print secret of repository variable of user name from GitHub UI (test)
         run: echo "this is secrets variable from GitHub GUI ${{secrets.USER_NAME}}"
         
-      - name: Access & print secret of repository variable from GitHub UI (test)
+      - name: Access & print secret of repository variable of user password from GitHub UI (test)
         run: echo "this is secrets  variable from GitHub GUI ${{secrets.PASSWORD}}"  
 
   ProductionTest:
@@ -70,8 +70,8 @@ jobs:
       - name: Access & print environment variable from GitHub UI (production)
         run: echo "this is environment variable from GitHub GUI ${{vars.BASE_URL}}"
 
-      - name: Access & print secret of repository variable from GitHub UI (test)
-        run: echo "this is secrets variable from GitHub GUI ${{secrets.USER_NAME}}"  
-
-      - name: Access & print secret of repository variable from GitHub UI (test)
+      - name: Access & print secret of repository variable of user name from GitHub UI (test)
+        run: echo "this is secrets variable from GitHub GUI ${{secrets.USER_NAME}}"
+        
+      - name: Access & print secret of repository variable of user password from GitHub UI (test)
         run: echo "this is secrets  variable from GitHub GUI ${{secrets.PASSWORD}}"  
