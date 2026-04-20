@@ -8,8 +8,8 @@ on:
     branches: [ main ]
 
 env:
-    ENVIRONMENT: test
-    APP_Name: k application
+  ENVIRONMENT: test
+  APP_NAME: k_application
   
 jobs:
   TestEnvironmentTest:
@@ -17,41 +17,40 @@ jobs:
     environment: test
     
     env:
-        JOB_TYPE: UI
-        BROWSER: chrome
+      JOB_TYPE: UI
+      BROWSER: chrome
+
     steps:
-      - name: checkout code 
+      - name: Checkout code 
         uses: actions/checkout@v4
 
-      - name: print this job name
-        run : echo "this is jobs level env variable $JOB_TYPE"
+      - name: Print job-level env variable
+        run: echo "this is job-level env variable $JOB_TYPE"
 
+      - name: Print step-level env variable
+        run: echo "this is step-level env variable $TEST_LEVEL"
         env:
-            TEST_LEVEL: smoke
+          TEST_LEVEL: smoke
 
-      - name: print the context
-        run : echo "Steps level env variable $TEST_LEVEL"
-  
-      - name: print the context
-        run : echo " this is workflow level env variable $ENVIRONMENT"
+      - name: Print workflow-level env variable
+        run: echo "this is workflow-level env variable $ENVIRONMENT"
 
-      - name: access & print the enviromental variable from github GUI for test environment
-        run : echo "this is envirment varible from github GUI $BASE_URL  
+      - name: Access & print environment variable from GitHub UI (test)
+        run: echo "this is environment variable from GitHub GUI $BASE_URL"
+
   ProductionTest:
     runs-on: ubuntu-latest
     environment: Production
+
     steps: 
-      - name: checkout code 
+      - name: Checkout code 
         uses: actions/checkout@v4
         
-      - name: print this job name
+      - name: Print job name
         run: echo "API_test"
 
-      - name: print the context 
-        run: echo "It will run all api test cases"
-
-      - name: print global leven repository varible 
-        run: echo "It will run all api ${{ vars.PROJECT_ID}}"
+      - name: Print repository variable
+        run: echo "Project ID is ${{ vars.PROJECT_ID }}"
     
-      - name: access & print the enviromental variable from github GUI for production environment
-        run : echo "this is envirment varible from github GUI $BASE_URL"
+      - name: Access & print environment variable from GitHub UI (production)
+        run: echo "this is environment variable from GitHub GUI $BASE_URL"
