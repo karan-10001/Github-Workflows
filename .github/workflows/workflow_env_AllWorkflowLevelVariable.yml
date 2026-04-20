@@ -12,7 +12,7 @@ env:
     APP_Name: k application
   
 jobs:
-  UI_Tests:
+  TestEnvironmentTest:
     runs-on: ubuntu-latest
     environment: test
     
@@ -34,9 +34,12 @@ jobs:
   
       - name: print the context
         run : echo " this is workflow level env variable $ENVIRONMENT"
-  API_Test:
-    runs-on: ubuntu-latest
 
+      - name: access & print the enviromental variable from github GUI for test environment
+        run : echo "this is envirment varible from github GUI $BASE_URL  
+  ProductionTest:
+    runs-on: ubuntu-latest
+    environment: Production
     steps: 
       - name: checkout code 
         uses: actions/checkout@v4
@@ -50,5 +53,5 @@ jobs:
       - name: print global leven repository varible 
         run: echo "It will run all api ${{ vars.PROJECT_ID}}"
     
-      - name: access & print the enviromental variable from github GUI
+      - name: access & print the enviromental variable from github GUI for production environment
         run : echo "this is envirment varible from github GUI $BASE_URL"
