@@ -1,4 +1,4 @@
-name: workflow with env variables
+name: workflow with global repo & env variables
 
 on: 
   workflow_dispatch:
