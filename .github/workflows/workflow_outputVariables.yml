@@ -1,4 +1,4 @@
-name: workflow with manual inputs in workflow_dispatch
+name: workflow with output variables
 
 on: 
   workflow_dispatch:
