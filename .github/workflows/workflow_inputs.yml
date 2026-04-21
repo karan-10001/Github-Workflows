@@ -17,6 +17,17 @@ on:
                 - INT
                 - PROD
                 - DEV
+        firstNumber:
+            description: "please enter first number"
+            required: true
+            default: 0
+            type : number 
+        secondNumber:
+            description: "please enter second number"
+            required: true
+            default: 0
+            type: number 
+
 
 jobs:
   UI_Tests:
@@ -33,8 +44,15 @@ jobs:
         run : echo "It will run all UI test cases"
 
       - name: print inputs variable
-        run : echo "one of the input variable is ${{inputs.Myname}}"  
+        run : echo "one of the input variable is ${{inputs.Myname}}"
+        
+      - name: add number
+        id: sum
+        run: echo "sum=$(( ${{inputs.firstNumber}} + ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT 
   
+      - name: display number
+        run: echo " $${{ steps.sum.outputs.sum}}"
+
   API_Test:
     runs-on: ubuntu-latest
 
@@ -49,5 +67,12 @@ jobs:
         run: echo "It will run all api test cases"
 
       - name: print inputs other variable
-        run: echo "one of the input variable is ${{inputs.Environment}}"  
+        run: echo "one of the input variable is ${{inputs.Environment}}"
+      
+      - name: add number
+        id: subtraction
+        run: echo "minus=$(( ${{inputs.firstNumber}} - ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT 
+  
+      - name: display number
+        run: echo " $${{ steps.subtraction.outputs.minus}}"
 
