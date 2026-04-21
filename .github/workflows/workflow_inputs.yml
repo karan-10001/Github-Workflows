@@ -74,5 +74,5 @@ jobs:
         run: echo "minus=$(( ${{inputs.firstNumber}} - ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT 
   
       - name: display number
-        run: echo " $${{ steps.subtraction.outputs.minus}}"
+        run: echo " ${{ steps.subtraction.outputs.minus}}"
 
