@@ -46,12 +46,16 @@ jobs:
       - name: print inputs variable
         run : echo "one of the input variable is ${{inputs.Myname}}"
         
-      - name: add number
-        id: sum
-        run: echo "sum=$(( ${{inputs.firstNumber}} + ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT 
+      - name: add and multiply the numbers
+        id: sumAndMulti
+        run: |
+            echo "sum=$(( ${{inputs.firstNumber}} + ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT
+            echo "multi=$(( ${{inputs.firstNumber}} * ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT 
   
-      - name: display number
-        run: echo "${{ steps.sum.outputs.sum}}"
+      - name: display results
+        run: |
+            echo "Sum result: ${{ steps.sumAndMulti.outputs.sum}}"
+            echo "Multiplication result: ${{steps.sumAndMulti.outputs.multi}}"
 
   API_Test:
     runs-on: ubuntu-latest
@@ -69,10 +73,16 @@ jobs:
       - name: print inputs other variable
         run: echo "one of the input variable is ${{inputs.Environment}}"
       
-      - name: add number
+      - name: minus number
         id: subtraction
-        run: echo "minus=$(( ${{inputs.firstNumber}} - ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT 
+        run: echo "minus=$(( ${{inputs.firstNumber}} - ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT
+        
+      - name: minus number
+        id: division
+        run: echo "div=$(( ${{inputs.firstNumber}} % ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT   
   
-      - name: display number
-        run: echo " ${{ steps.subtraction.outputs.minus}}"
+      - name: display results
+        run: |
+            echo "Minus result: ${{ steps.subtraction.outputs.minus}}"
+            echo "Division result: ${{steps.division.outputs.div}}"
 
