@@ -29,8 +29,8 @@ jobs:
               id: numberCalculation
               run: |
                 echo "add= $(( ${{inputs.number1}} + ${{inputs.number2}}))" >> $GITHUB_OUTPUT
-                echo "subs= $(( ${{inputs.number1}} + ${{inputs.number2}}))" >> $GITHUB_OUTPUT
-                echo "multi= $(( ${{inputs.number1}} + ${{inputs.number2}}))" >> $GITHUB_OUTPUT
+                echo "subs= $(( ${{inputs.number1}} - ${{inputs.number2}}))" >> $GITHUB_OUTPUT
+                echo "multi= $(( ${{inputs.number1}} * ${{inputs.number2}}))" >> $GITHUB_OUTPUT
 
     Display_results:
         runs-on: ubuntu-latest
