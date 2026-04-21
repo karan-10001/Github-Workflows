@@ -1,88 +1,48 @@
-name: workflow with output variables
+name: workflow with output variables (decimal inputs)
 
-on: 
+on:
   workflow_dispatch:
     inputs:
-        Myname:
-            description: "Please enter your name"
-            required: true 
-            default: "github user"
-            type: string
-        Environment:
-            description: "please enter the environment"
-            required: true
-            type: choice
+      firstNumber:
+        description: "Enter first number (e.g. 13)"
+        required: true
+        default: "0"
+        type: string
 
-            options:
-                - INT
-                - PROD
-                - DEV
-        firstNumber:
-            description: "please enter first number"
-            required: true
-            default: 0
-            type : number 
-        secondNumber:
-            description: "please enter second number"
-            required: true
-            default: 0
-            type: number 
-
+      secondNumber:
+        description: "Enter second number (e.g. 5)"
+        required: true
+        default: "5"
+        type: string
 
 jobs:
-  UI_Tests:
+  Math_Operations:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout code 
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: print this job name
-        run : echo "UI_Tests"
-
-      - name: print the context
-        run : echo "It will run all UI test cases"
-
-      - name: print inputs variable
-        run : echo "one of the input variable is ${{inputs.Myname}}"
-        
-      - name: add and multiply the numbers
-        id: sumAndMulti
+       #Step 1: Add & Multiply
+      - name: Add and multiply numbers
+        id: sumAndMultiply
         run: |
-            echo "sum=$(( ${{inputs.firstNumber}} + ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT
-            echo "multi=$(( ${{inputs.firstNumber}} * ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT 
-  
-      - name: display results
+          echo "sum=$(( ${{ inputs.firstNumber }} + ${{ inputs.secondNumber }} ))" >> $GITHUB_OUTPUT
+          echo "multiply=$(( ${{ inputs.firstNumber }} * ${{ inputs.secondNumber }} ))" >> $GITHUB_OUTPUT
+
+      - name: Display sum & multiplication
         run: |
-            echo "Sum result: ${{ steps.sumAndMulti.outputs.sum}}"
-            echo "Multiplication result: ${{steps.sumAndMulti.outputs.multi}}"
+          echo "Sum result: ${{ steps.sumAndMultiply.outputs.sum }}"
+          echo "Multiplication result: ${{ steps.sumAndMultiply.outputs.multiply }}"
 
-  API_Test:
-    runs-on: ubuntu-latest
-
-    steps: 
-      - name: checkout code 
-        uses: actions/checkout@v4
-        
-      - name: print this job name
-        run: echo "API_test"
-
-      - name: print the context 
-        run: echo "It will run all api test cases"
-
-      - name: print inputs other variable
-        run: echo "one of the input variable is ${{inputs.Environment}}"
-      
-      - name: minus number
-        id: subtraction
-        run: echo "minus=$(( ${{inputs.firstNumber}} - ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT
-        
-      - name: minus number
-        id: division
-        run: echo "div=$(( ${{inputs.firstNumber}} % ${{inputs.secondNumber}} ))" >> $GITHUB_OUTPUT   
-  
-      - name: display results
+       #Step 2: Subtract & Divide
+      - name: Subtract and divide numbers
+        id: subtractAndDivide
         run: |
-            echo "Minus result: ${{ steps.subtraction.outputs.minus}}"
-            echo "Division result: ${{steps.division.outputs.div}}"
+          echo "subtract=$(( ${{ inputs.firstNumber }} - ${{ inputs.secondNumber }} ))" >> $GITHUB_OUTPUT
+          echo "divide=$(( ${{ inputs.firstNumber }} / ${{ inputs.secondNumber }} ))" >> $GITHUB_OUTPUT
 
+      - name: Display subtraction & division
+        run: |
+          echo "Subtraction result: ${{ steps.subtractAndDivide.outputs.subtract }}"
+          echo "Division result: ${{ steps.subtractAndDivide.outputs.divide }}"
