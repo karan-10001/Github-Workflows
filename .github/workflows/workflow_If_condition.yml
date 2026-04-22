@@ -1,0 +1,86 @@
+name: workflow if conditions
+
+on: 
+  workflow_dispatch:
+    inputs:
+        TypeOfTest:
+            description: "Provide which type of test to run"
+            required: true
+            default: "UI_Test"
+            type: choice
+
+            options:
+                - UI_Test
+                - API_Test
+                - Performance_Test
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  
+jobs:
+  UI_Test:
+    runs-on: ubuntu-latest
+    
+    # run this UI_Tests job when user provides UI_Test as a input
+    if: inputs.TypeOfTest == 'UI_Test' 
+    steps:
+      - name: checkout code 
+        uses: actions/checkout@v4
+
+      - name: print this job name
+        run : echo "UI_Tests"
+
+      - name: print the context
+        run : echo "It will run all UI test cases"
+
+      - name: upload the extent report
+        # it will run always in UI_test job
+        if : always()
+        uses: ctions/upload-artifact@v4
+        with:
+            name: extent_report
+            path: report/
+  
+  API_Test:
+    runs-on: ubuntu-latest
+    # run this UI_Tests job when user provides UI_Test as a input
+    # never use this syntax in if condition if you want to accesss any variables ${{ }}
+    if: |
+      (github.event_name == 'workflow_dispatch' && inputs.TypeOfTest == 'API_Test') ||
+      github.ref_name == 'main'
+
+    steps: 
+      - name: checkout code 
+        uses: actions/checkout@v4
+        
+      - name: print this job name
+        run: echo "API_test"
+
+      - name: print the context 
+        run: echo "It will run all api test cases"
+
+      - name: this will only run if above steps failed
+        if: failure()
+        run: | 
+            echo "above steps failed for ${{github.job}}"
+            echo "please check the above step"
+
+  Performance_Test:
+    runs-on: ubuntu-latest
+    if: inputs.TypeOfTest== 'Performance_Test'
+
+    needs: API_Test
+    steps: 
+      - name: checkout code 
+        uses: actions/checkout@v4
+        
+      - name: print this job name
+        run: echo "Performance_test"
+
+      - name: print the context 
+        run: echo "It will run all performance test cases"
+
+      - name: deploy the code 
+        if: success()
+        run: echo "this step only run when all above steps are success"
