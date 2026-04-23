@@ -1,0 +1,55 @@
+name: Email Notification Demo (No Project Required)
+
+on:
+  workflow_dispatch:
+    inputs:
+      simulate_result:
+        description: "Choose test result"
+        required: true
+        type: choice
+        options:
+          - pass
+          - fail
+
+jobs:
+  Demo_Job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Simulate test execution
+        run: |
+          echo "Running dummy tests..."
+          if [ "${{ inputs.simulate_result }}" = "fail" ]; then
+            echo "❌ Tests failed"
+            exit 1
+          else
+            echo "✅ Tests passed"
+          fi
+
+      # ✅ Always send email with PASS / FAIL status
+      - name: Send Email Notification (Always)
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVE }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          to: ${{ secrets.EMAIL_TO }}
+          from: "GitHub Actions <${{ secrets.SMTP_USERNAME }}>"
+          subject: >
+            Workflow Status: ${{ job.status == 'success' && '✅ PASSED' || '❌ FAILED' }}
+          body: |
+            Hello Team,
+
+            This is a DEMO email from a workflow-only repository.
+
+            🔹 Workflow Status: ${{ job.status }}
+            🔹 Repository: ${{ github.repository }}
+            🔹 Triggered by: ${{ github.actor }}
+
+            Workflow run link:
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Regards,
+            GitHub Actions

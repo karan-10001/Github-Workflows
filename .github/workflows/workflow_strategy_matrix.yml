@@ -20,7 +20,7 @@ jobs:
       matrix:
         browser: [chrome, firefox]
         
-
+    #This has to writen to manage the each iteration of matrix browser first time chrome then firefox 
     env:
       TEST_ENV: ${{ inputs.environment }}
       BROWSER: ${{ matrix.browser }}
